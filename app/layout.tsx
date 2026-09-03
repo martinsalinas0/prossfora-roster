@@ -9,7 +9,7 @@ const montserrat = Montserrat({
 });
 
 export const metadata: Metadata = {
-  title: "Passfora",
+  title: "Prossfora",
   description: "App in progress",
 };
 

@@ -1,1 +1,162 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+
+/* ================================
+   Tailwind Theme Tokens
+   ================================ */
+@theme {
+  /* Prossfora Custom Colors */
+  --color-cerulean-50: #e8ecf2;
+  --color-cerulean-100: #c5cfe0;
+  --color-cerulean-200: #9eafcb;
+  --color-cerulean-300: #7790b6;
+  --color-cerulean-400: #5a78a6;
+  --color-cerulean-500: #3d6096;
+  --color-cerulean-600: #2d4a78;
+  --color-cerulean-700: #1e355a;
+  --color-cerulean-800: #0f2143;
+  --color-cerulean-900: #091529;
+  --color-cerulean-950: #050b15;
+  --color-cerulean: #0f2143;
+
+  --color-olive-50: #f0f3ec;
+  --color-olive-100: #dae1d0;
+  --color-olive-200: #c2cdb1;
+  --color-olive-300: #aab992;
+  --color-olive-400: #8fa36f;
+  --color-olive-500: #658251;
+  --color-olive-600: #536b42;
+  --color-olive-700: #43572e;
+  --color-olive-800: #354623;
+  --color-olive-900: #263318;
+  --color-olive-950: #141b0d;
+  --color-olive: #43572e;
+
+  --color-pacific-50: #edf1f2;
+  --color-pacific-100: #d2dbde;
+  --color-pacific-200: #b4c3c8;
+  --color-pacific-300: #96abb2;
+  --color-pacific-400: #7a949c;
+  --color-pacific-500: #5f7d86;
+  --color-pacific-600: #4a656d;
+  --color-pacific-700: #354e56;
+  --color-pacific-800: #283b41;
+  --color-pacific-900: #1b282c;
+  --color-pacific-950: #0e1517;
+  --color-pacific: #354e56;
+
+  --color-yarrow-50: #f9f4e8;
+  --color-yarrow-100: #f0e3c5;
+  --color-yarrow-200: #e5ce9c;
+  --color-yarrow-300: #dab872;
+  --color-yarrow-400: #c9a04a;
+  --color-yarrow-500: #a98428;
+  --color-yarrow-600: #8b6212;
+  --color-yarrow-700: #6f4e0e;
+  --color-yarrow-800: #533a0b;
+  --color-yarrow-900: #382707;
+  --color-yarrow-950: #1c1304;
+  --color-yarrow: #8b6212;
+}
+
+/* ================================
+   Inline Theme Mappings
+   ================================ */
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+
+  --color-destructive: var(--destructive);
+
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  /* Sidebar (Prossfora) */
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+}
+
+/* ================================
+   Base Design Tokens (Prossfora)
+   ================================ */
+:root {
+  --radius: 0.625rem;
+
+  /* Page & surfaces */
+  --background: #f5f6f8;
+  --foreground: #0f2143;
+
+  --card: #ffffff;
+  --card-foreground: #0f2143;
+
+  --popover: #ffffff;
+  --popover-foreground: #0f2143;
+
+  /* Primary = Cerulean */
+  --primary: #0f2143;
+  --primary-foreground: #ffffff;
+
+  --secondary: #e8ecf2;
+  --secondary-foreground: #0f2143;
+
+  --muted: #e8ecf2;
+  --muted-foreground: #4a656d;
+
+  --accent: #e8ecf2;
+  --accent-foreground: #0f2143;
+
+  --destructive: oklch(0.577 0.245 27.325);
+
+  --border: #c5cfe0;
+  --input: #c5cfe0;
+  --ring: #5a78a6;
+
+  /* Sidebar */
+  --sidebar: #ffffff;
+  --sidebar-foreground: #0f2143;
+  --sidebar-accent: #f0f3ec;
+  --sidebar-accent-foreground: #0f2143;
+  --sidebar-border: #c5cfe0;
+  --sidebar-ring: #5a78a6;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
