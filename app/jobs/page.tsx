@@ -1,12 +1,7 @@
-/* The code provided is a TypeScript React component named `JobsTestPage`. Here's a breakdown of what
-the code does: */
-
 "use client";
 
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import JobCardForList from "../components/JobCard";
-import JobSearchBar from "../components/ui/JobSearchBar";
 
 export interface JobLocation {
   street: string;
@@ -60,25 +55,12 @@ const JobsTestPage = () => {
 
   return (
     <div>
-      <JobSearchBar />
+      <p>Job Search Bar</p>
       <div className="max-w-7xl mx-auto py-4 px-4">
         <ul className="grid grid-cols-4 gap-6 list-none p-0">
           {jobs.map((job) => (
             <li key={job._id} className="flex justify-center">
-              <JobCardForList
-                jobName={job.jobName}
-                jobLocation={job.jobLocation}
-                jobCost={job.jobCost}
-                createdAt={job.createdAt}
-                jobDeadline={job.jobDeadline}
-                jobCategory={job.jobCategory}
-                jobID={job._id}
-                onDeleteSuccess={handleDeleteSuccess}
-                forCustomer={job.forCustomer}
-                postedBy={job.postedBy}
-                jobBids={job.jobBids}
-                jobStatus={job.jobStatus}
-              />
+              <p>JobCardForList</p>
             </li>
           ))}
         </ul>
