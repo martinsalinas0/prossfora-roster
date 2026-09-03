@@ -1,9 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-/* ================================
-   Tailwind Theme Tokens
-   ================================ */
 @theme {
   /* Prossfora Custom Colors */
   --color-cerulean-50: #e8ecf2;
@@ -59,9 +56,6 @@
   --color-yarrow: #8b6212;
 }
 
-/* ================================
-   Inline Theme Mappings
-   ================================ */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -90,7 +84,6 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
 
-  /* Sidebar (Prossfora) */
   --color-sidebar: var(--sidebar);
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar-accent: var(--sidebar-accent);
@@ -107,9 +100,6 @@
   --radius-4xl: calc(var(--radius) + 16px);
 }
 
-/* ================================
-   Base Design Tokens (Prossfora)
-   ================================ */
 :root {
   --radius: 0.625rem;
 
