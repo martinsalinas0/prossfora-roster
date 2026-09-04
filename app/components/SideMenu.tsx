@@ -1,3 +1,8 @@
+"use client";
+
+import { useState } from "react";
+import { ChevronDown } from "lucide-react";
+
 import {
   BarChart3,
   CalendarRange,
@@ -65,30 +70,56 @@ const menuItems = [
 ];
 
 const SideMenu = () => {
+  const [open, setOpen] = useState<string[]>(
+    menuItems.map((g) => g.title), // all expanded by default
+  );
+
+  const toggle = (title: string) =>
+    setOpen((prev) =>
+      prev.includes(title) ? prev.filter((t) => t !== title) : [...prev, title],
+    );
+
   return (
     <div className="mt-4 text-sm">
-      {menuItems.map((group) => (
-        <div className="flex flex-col gap-2" key={group.title}>
-          <span className="hidden lg:block text-gray-400 font-light my-4">
-            {group.title}
-          </span>
-          {group.items.map((item) => {
-            const Icon = item.icon;
-            return (
-              <Link
-                href={item.href}
-                key={item.href}
-                className="flex items-center justify-center lg:justify-start gap-4 text-gray-500 py-2 md:px-2 rounded-md hover:bg-muted"
-              >
-                <Icon className="size-5 shrink-0" />
-                <span className="hidden lg:block">{item.label}</span>
-              </Link>
-            );
-          })}
-        </div>
-      ))}
+      {menuItems.map((group) => {
+        const isOpen = open.includes(group.title);
+
+        return (
+          <div className="flex flex-col gap-2" key={group.title}>
+            <button
+              type="button"
+              onClick={() => toggle(group.title)}
+              aria-expanded={isOpen}
+              className="hidden lg:flex items-center gap-2 text-gray-400 font-light my-4 hover:text-gray-600 transition-colors"
+            >
+              <span className="flex-1 text-left font-semibold">
+                {group.title}
+              </span>
+              <ChevronDown
+                className={`size-4 shrink-0 transition-transform ${
+                  isOpen ? "" : "-rotate-90"
+                }`}
+              />
+            </button>
+
+            {isOpen &&
+              group.items.map((item) => {
+                const Icon = item.icon;
+                return (
+                  <Link
+                    href={item.href}
+                    key={item.href}
+                    className="flex items-center justify-center lg:justify-start gap-4 text-gray-500 py-2 md:px-2 rounded-md hover:bg-muted"
+                  >
+                    <Icon className="size-5 shrink-0" />
+                    <span className="hidden lg:block">{item.label}</span>
+                  </Link>
+                );
+              })}
+          </div>
+        );
+      })}
     </div>
   );
 };
-
 export default SideMenu;

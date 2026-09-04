@@ -4,47 +4,10 @@ This is the **frontend** of the **Work Together** platform, built using [Next.js
 
 ## 🚀 Tech Stack
 
-- Next.js 15
-- React 19
-- Tailwind CSS 4
-- TypeScript 5
-- Axios
-- React Icons
-
-## 📦 Installation
-
-```bash
-git clone https://github.com/martinsalinas0/work-together-frontend-v2.git
-cd work-together-frontend-v2
-npm install
-# or
-yarn
-```
-
-Create a `.env.local` file with:
-
-```env
-NEXT_PUBLIC_API_BASE_URL=http://localhost:5000/api
-```
-
-## 🧪 Running Locally
-
-```bash
-npm run dev
-```
-
-Open [http://localhost:3000](http://localhost:3000).
-
-## 🗂️ Project Structure
-
-```
-work-together-frontend-v2/
-├── app/
-├── components/
-├── lib/
-├── public/
-├── styles/
-```
+- Next.js
+- React
+- Tailwind CSS
+- TypeScript
 
 ## ✨ Features
 
@@ -52,17 +15,6 @@ work-together-frontend-v2/
 - REST API integration
 - Fully responsive
 - Tailwind CSS
-
-## 🛠 Scripts
-
-- `npm run dev`
-- `npm run build`
-- `npm run start`
-- `npm run lint`
-
-## 🚀 Deployment
-
-Deploy via [Vercel](https://vercel.com/). Set `NEXT_PUBLIC_API_BASE_URL` in the dashboard.
 
 ## 🧾 License
 
