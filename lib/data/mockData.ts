@@ -3,7 +3,7 @@
 export let role = "admin";
 
 // ============================ TEAM ============================
-export const teamData = [
+export const employeeData = [
   {
     id: 1,
     employeeId: "EMP-1000",

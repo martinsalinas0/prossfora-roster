@@ -54,7 +54,7 @@ const menuItems = [
     items: [
       { icon: ContactRound, label: "Customers", href: "/admin/customers" },
       { icon: Users, label: "Contractors", href: "/admin/contractors" },
-      { icon: Users, label: "Team", href: "/admin/team" },
+      { icon: Users, label: "Team", href: "/admin/employees" },
     ],
   },
   {
@@ -70,9 +70,7 @@ const menuItems = [
 ];
 
 const SideMenu = () => {
-  const [open, setOpen] = useState<string[]>(
-    menuItems.map((g) => g.title), // all expanded by default
-  );
+  const [open, setOpen] = useState<string[]>(menuItems.map((g) => g.title));
 
   const toggle = (title: string) =>
     setOpen((prev) =>

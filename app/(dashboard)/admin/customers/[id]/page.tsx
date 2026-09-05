@@ -15,7 +15,6 @@ export default async function JobDetailPage({
 
   if (!job) notFound();
 
-  // join on jobId — the stable string key
   const quote = quotesData.find((q) => q.jobId === job.jobId);
   const invoice = customerInvoicesData.find((i) => i.jobId === job.jobId);
 
