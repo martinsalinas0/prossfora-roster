@@ -7,10 +7,9 @@ export const employeeData = [
   {
     id: 1,
     employeeId: "EMP-1000",
-    name: "Martin Reyes",
-    email: "martin.reyes@prossfora.com",
-    photo:
-      "https://images.pexels.com/photos/2888150/pexels-photo-2888150.jpeg?auto=compress&cs=tinysrgb&w=1200",
+    name: "Martin Salinas",
+    email: "martin@prossfora.com",
+    photo: "/avatars/martin.jpeg",
     phone: "(512) 274-9485",
     role: "admin",
     status: "active",
