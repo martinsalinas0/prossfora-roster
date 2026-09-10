@@ -1,33 +1,30 @@
 "use client";
 
 import { useState } from "react";
-import { ChevronDown } from "lucide-react";
-
 import {
-  BarChart3,
   CalendarRange,
+  ChevronDown,
+  ClipboardList,
   ContactRound,
   DollarSign,
   FileText,
+  HardHat,
   Home,
-  LogOut,
   Receipt,
-  Settings,
-  UserCircle,
   Users,
   Wrench,
 } from "lucide-react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const menuItems = [
   {
     title: "MENU",
-    items: [{ icon: Home, label: "Home", href: "/admin" }],
+    items: [{ icon: Home, label: "Dashboard", href: "/admin" }],
   },
   {
     title: "WORK",
     items: [
-      { icon: FileText, label: "Job Requests", href: "/admin/job-requests" },
       { icon: Wrench, label: "Jobs", href: "/admin/jobs" },
       { icon: CalendarRange, label: "Schedule", href: "/admin/schedule" },
     ],
@@ -36,16 +33,8 @@ const menuItems = [
     title: "MONEY",
     items: [
       { icon: FileText, label: "Quotes", href: "/admin/quotes" },
-      {
-        icon: Receipt,
-        label: "Customer Invoices",
-        href: "/admin/invoices/customers",
-      },
-      {
-        icon: Receipt,
-        label: "Contractor Invoices",
-        href: "/admin/invoices/contractors",
-      },
+      { icon: Receipt, label: "Invoices", href: "/admin/invoices" },
+      { icon: ClipboardList, label: "Work Items", href: "/admin/workItems" },
       { icon: DollarSign, label: "Payments", href: "/admin/payments" },
     ],
   },
@@ -53,29 +42,23 @@ const menuItems = [
     title: "PEOPLE",
     items: [
       { icon: ContactRound, label: "Customers", href: "/admin/customers" },
-      { icon: Users, label: "Contractors", href: "/admin/contractors" },
+      { icon: HardHat, label: "Contractors", href: "/admin/contractors" },
       { icon: Users, label: "Team", href: "/admin/employees" },
-    ],
-  },
-  {
-    title: "OTHER",
-    items: [
-      { icon: BarChart3, label: "Reports", href: "/admin/reports" },
-      { icon: BarChart3, label: "Activity", href: "/admin/audit" },
-      { icon: UserCircle, label: "Profile", href: "/admin/profile" },
-      { icon: Settings, label: "Settings", href: "/admin/settings" },
-      { icon: LogOut, label: "Logout", href: "/logout" },
     ],
   },
 ];
 
 const SideMenu = () => {
+  const pathname = usePathname();
   const [open, setOpen] = useState<string[]>(menuItems.map((g) => g.title));
 
   const toggle = (title: string) =>
     setOpen((prev) =>
       prev.includes(title) ? prev.filter((t) => t !== title) : [...prev, title],
     );
+
+  const isActive = (href: string) =>
+    href === "/admin" ? pathname === href : pathname.startsWith(href);
 
   return (
     <div className="mt-4 text-sm">
@@ -103,11 +86,17 @@ const SideMenu = () => {
             {isOpen &&
               group.items.map((item) => {
                 const Icon = item.icon;
+                const active = isActive(item.href);
                 return (
                   <Link
                     href={item.href}
                     key={item.href}
-                    className="flex items-center justify-center lg:justify-start gap-4 text-gray-500 py-2 md:px-2 rounded-md hover:bg-muted"
+                    aria-current={active ? "page" : undefined}
+                    className={`flex items-center justify-center lg:justify-start gap-4 py-2 md:px-2 rounded-md transition-colors ${
+                      active
+                        ? "bg-cerulean-50 text-cerulean font-medium"
+                        : "text-gray-500 hover:bg-muted"
+                    }`}
                   >
                     <Icon className="size-5 shrink-0" />
                     <span className="hidden lg:block">{item.label}</span>
@@ -120,4 +109,5 @@ const SideMenu = () => {
     </div>
   );
 };
+
 export default SideMenu;

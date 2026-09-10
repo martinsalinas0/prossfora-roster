@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 
 export interface JobLocation {
   street: string;
@@ -30,8 +29,9 @@ const JobsTestPage = () => {
   useEffect(() => {
     const getJobs = async () => {
       try {
-        const response = await axios.get(`http://localhost:8000/api/jobs/all`);
-        setJobs(response.data?.jobs);
+        const response = await fetch(`http://localhost:8000/api/jobs/all`);
+        const data = await response.json();
+        setJobs(data?.jobs);
       } catch (error) {
         console.error("Failed to GET from API: ", error);
       } finally {
