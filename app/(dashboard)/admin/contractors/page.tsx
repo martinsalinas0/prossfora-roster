@@ -40,7 +40,7 @@ const renderRow = (item: any) => (
     <td className="hidden md:table-cell">{item.jobCount}</td>
     <td>
       <Link
-        href={`/admin/customers/${item.id}`}
+        href={`/admin/contractors/${item.id}`}
         className="text-cerulean hover:underline"
       >
         View
