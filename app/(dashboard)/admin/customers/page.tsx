@@ -1,7 +1,11 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import Table from "@/app/components/Table";
 import { customersData } from "@/lib/data/mockData";
+import SearchBar from "@/app/components/SearchBar";
+import { useState } from "react";
 
 const columns = [
   {
@@ -68,13 +72,32 @@ const renderRow = (item: any) => (
 );
 
 export default function CustomerListPage() {
+  const [searchQuery, setSearchQuery] = useState("");
+
+  //fetch customers data from backend DB
+
+  const filteredCustomers = customersData.filter((customer) => {
+    const q = searchQuery.toLowerCase();
+    return (
+      customer.name.toLowerCase().includes(q) ||
+      customer.email.toLowerCase().includes(q) ||
+      customer.address.toLowerCase().includes(q)
+    );
+  });
+
   return (
     <div className="bg-card p-4 rounded-md flex-1 m-4 mt-0">
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between gap-4">
         <h1 className="hidden md:block text-lg font-semibold">All Customers</h1>
+        <SearchBar
+          value={searchQuery}
+          onChange={setSearchQuery}
+          placeholder="Search customers..."
+          className="md:w-64"
+        />
       </div>
 
-      <Table columns={columns} renderRow={renderRow} data={customersData} />
+      <Table columns={columns} renderRow={renderRow} data={filteredCustomers} />
     </div>
   );
 }
