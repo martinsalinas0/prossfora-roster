@@ -1,6 +1,10 @@
+"use client";
+
+import SearchBar from "@/app/components/SearchBar";
 import Table from "@/app/components/Table";
 import { employeeData } from "@/lib/data/mockData";
 import Link from "next/link";
+import { useState } from "react";
 
 const columns = [
   { header: "Info", accessor: "info" },
@@ -39,13 +43,33 @@ const renderRow = (item: any) => (
 );
 
 const EmployeesPage = () => {
+  const [searchQuery, setSearchQuery] = useState("");
+
+  //fetch emplyeeData from backend DB
+
+  const filteredEmployees = employeeData.filter((employee) => {
+    const q = searchQuery.toLowerCase();
+    return (
+      employee.name.toLowerCase().includes(q) ||
+      employee.employeeId.includes(q) ||
+      employee.phone.toLowerCase().includes(q)
+    );
+  });
+
   return (
     <div className="bg-card p-4 rounded-md flex-1 m-4 mt-0">
       <div className="flex items-center justify-between">
         <h1 className="hidden md:block text-lg font-semibold">All Employees</h1>
+        <div>
+          <SearchBar
+            value={searchQuery}
+            onChange={setSearchQuery}
+            placeholder="Search Employees..."
+          />
+        </div>
       </div>
 
-      <Table columns={columns} renderRow={renderRow} data={employeeData} />
+      <Table columns={columns} renderRow={renderRow} data={filteredEmployees} />
     </div>
   );
 };
