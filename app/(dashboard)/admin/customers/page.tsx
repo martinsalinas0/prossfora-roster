@@ -44,13 +44,6 @@ const renderRow = (item: any) => (
     className="border-b border-border even:bg-muted/40 text-sm hover:bg-muted"
   >
     <td className="flex items-center gap-4 p-4">
-      <Image
-        src={item.photo}
-        alt=""
-        width={40}
-        height={40}
-        className="md:hidden xl:block w-10 h-10 rounded-full object-cover"
-      />
       <div className="flex flex-col">
         <h3 className="font-semibold">{item.name}</h3>
         <p className="text-xs text-muted-foreground">{item.email}</p>

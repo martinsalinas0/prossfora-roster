@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { customersData } from "@/lib/data/mockData";
 import { useState } from "react";
 
@@ -34,14 +33,6 @@ const CustomerProfile = ({ customer }: { customer: Customer }) => {
         <div className="h-2 bg-linear-to-r from-cerulean via-pacific to-olive" />
 
         <div className="p-6 flex flex-col sm:flex-row sm:items-center gap-5">
-          <Image
-            src={form.photo}
-            alt=""
-            width={96}
-            height={96}
-            priority
-            className="w-24 h-24 rounded-full object-cover ring-4 ring-olive-100"
-          />
           <div className="flex-1">
             {isEditing ? (
               <input
