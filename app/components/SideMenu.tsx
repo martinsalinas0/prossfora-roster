@@ -44,7 +44,7 @@ const menuItems = [
         label: "Contractor Invoices",
         href: "/admin/invoices/contractor",
       },
-      { icon: ClipboardList, label: "Work Items", href: "/admin/workItems" },
+
       { icon: DollarSign, label: "Payments", href: "/admin/payments" },
     ],
   },

@@ -1,29 +1,28 @@
 "use client";
 
-import Image from "next/image";
-import { employeeData } from "@/lib/data/mockData";
+import { customersData } from "@/lib/data/mockData";
 import { useState } from "react";
 
-type Employee = (typeof employeeData)[number];
+type Customer = (typeof customersData)[number];
 
 const inputClass =
   "mt-1 w-full rounded-md border border-input bg-card px-2 py-1.5 text-sm font-medium text-cerulean-800 outline-none focus:ring-2 focus:ring-cerulean-400";
 
-const EmployeeProfile = ({ employee }: { employee: Employee }) => {
+const CustomerProfile = ({ customer }: { customer: Customer }) => {
   const [isEditing, setIsEditing] = useState(false);
-  const [form, setForm] = useState(employee);
+  const [form, setForm] = useState(customer);
 
-  const handleChange = (field: keyof Employee, value: string) => {
+  const handleChange = (field: keyof Customer, value: string) => {
     setForm((prev) => ({ ...prev, [field]: value }));
   };
 
   const handleCancel = () => {
-    setForm(employee);
+    setForm(customer);
     setIsEditing(false);
   };
 
   const handleSave = () => {
-    Object.assign(employee, form);
+    Object.assign(customer, form);
     setIsEditing(false);
   };
 
@@ -33,14 +32,6 @@ const EmployeeProfile = ({ employee }: { employee: Employee }) => {
         <div className="h-2 bg-linear-to-r from-cerulean via-pacific to-olive" />
 
         <div className="p-6 flex flex-col sm:flex-row sm:items-center gap-5">
-          <Image
-            src={form.photo}
-            alt=""
-            width={96}
-            height={96}
-            priority
-            className="w-24 h-24 rounded-full object-cover ring-4 ring-olive-100"
-          />
           <div className="flex-1">
             {isEditing ? (
               <input
@@ -53,23 +44,9 @@ const EmployeeProfile = ({ employee }: { employee: Employee }) => {
               <h1 className="text-2xl font-bold text-cerulean">{form.name}</h1>
             )}
 
-            {isEditing ? (
-              <select
-                value={form.role}
-                onChange={(e) => handleChange("role", e.target.value)}
-                className="mt-1 capitalize rounded-md border border-input bg-card px-2 py-1 text-sm text-pacific-600 outline-none focus:ring-2 focus:ring-cerulean-400"
-              >
-                <option value="admin">admin</option>
-                <option value="manager">manager</option>
-                <option value="employee">employee</option>
-              </select>
-            ) : (
-              <p className="text-pacific-600 capitalize">{form.role}</p>
-            )}
-
             <div className="mt-3 flex flex-wrap items-center gap-2">
               <span className="rounded-full bg-yarrow-50 px-3 py-1 text-xs font-medium text-yarrow-700 border border-yarrow-200">
-                {form.employeeId}
+                {form.customerId}
               </span>
               {isEditing ? (
                 <select
@@ -95,9 +72,6 @@ const EmployeeProfile = ({ employee }: { employee: Employee }) => {
                   {form.status}
                 </span>
               )}
-              <span className="rounded-full bg-cerulean-50 px-3 py-1 text-xs font-medium text-cerulean-700 border border-cerulean-200 capitalize">
-                {form.role}
-              </span>
             </div>
           </div>
 
@@ -173,19 +147,17 @@ const EmployeeProfile = ({ employee }: { employee: Employee }) => {
 
           <div className="border-l-2 border-yarrow-300 pl-3">
             <dt className="text-xs uppercase tracking-wide text-pacific-500">
-              Last Login
+              Customer Since
             </dt>
-            <dd className="mt-1 font-medium text-cerulean-800">
-              {form.lastLogin}
-            </dd>
+            <dd className="mt-1 font-medium text-cerulean-800">{form.since}</dd>
           </div>
 
           <div className="border-l-2 border-cerulean-300 pl-3">
             <dt className="text-xs uppercase tracking-wide text-pacific-500">
-              Employee ID
+              Customer ID
             </dt>
             <dd className="mt-1 font-medium text-cerulean-800">
-              {form.employeeId}
+              {form.customerId}
             </dd>
           </div>
 
@@ -212,4 +184,4 @@ const EmployeeProfile = ({ employee }: { employee: Employee }) => {
   );
 };
 
-export default EmployeeProfile;
+export default CustomerProfile;
