@@ -1,6 +1,10 @@
+"use client";
+
+import SearchBar from "@/app/components/SearchBar";
 import Table from "@/app/components/Table";
 import { jobsData } from "@/lib/data/mockData";
 import Link from "next/link";
+import { useState } from "react";
 
 const statusStyles: Record<string, string> = {
   open: "bg-pacific-50 text-pacific-700 border-pacific-200",
@@ -20,13 +24,21 @@ const priorityStyles: Record<string, string> = {
 const columns = [
   { header: "Job", accessor: "job" },
   { header: "Job ID", accessor: "jobId", className: "hidden md:table-cell" },
-  { header: "Customer", accessor: "customer", className: "hidden md:table-cell" },
+  {
+    header: "Customer",
+    accessor: "customer",
+    className: "hidden md:table-cell",
+  },
   {
     header: "Contractor",
     accessor: "contractor",
     className: "hidden lg:table-cell",
   },
-  { header: "Priority", accessor: "priority", className: "hidden lg:table-cell" },
+  {
+    header: "Priority",
+    accessor: "priority",
+    className: "hidden lg:table-cell",
+  },
   { header: "Status", accessor: "status" },
   { header: "Actions", accessor: "actions" },
 ];
@@ -57,7 +69,8 @@ const renderRow = (item: any) => (
     <td>
       <span
         className={`inline-block rounded-full border px-2.5 py-1 text-xs font-medium ${
-          statusStyles[item.status] ?? "bg-muted text-muted-foreground border-border"
+          statusStyles[item.status] ??
+          "bg-muted text-muted-foreground border-border"
         }`}
       >
         {item.status.replace(/_/g, " ")}
@@ -75,13 +88,40 @@ const renderRow = (item: any) => (
 );
 
 const JobsListPageForAdmin = () => {
+  const [searchQuery, setSearchQuery] = useState("");
+  // const filteredContractors = contractorsData.filter((contractor) => {
+  //   const q = searchQuery.toLowerCase();
+  //   return (
+  //     contractor.name.toLowerCase().includes(q) ||
+  //     contractor.email.toLowerCase().includes(q) ||
+  //     contractor.phone.toLowerCase().includes(q) ||
+  //     contractor.company?.toLowerCase().includes(q)
+  //   );
+  // });
+
+  const filteredJobs = jobsData.filter((job) => {
+    const q = searchQuery.toLowerCase();
+    return (
+      job.title.toLowerCase().includes(q) ||
+      job.contractor?.toLowerCase().includes(q) ||
+      job.customer.toLowerCase().includes(q) ||
+      job.jobId.toLowerCase().includes(q)
+    );
+  });
+
   return (
     <div className="bg-card p-4 rounded-md flex-1 m-4 mt-0">
       <div className="flex items-center justify-between">
         <h1 className="hidden md:block text-lg font-semibold">All Jobs</h1>
+
+        <SearchBar
+          value={searchQuery}
+          onChange={setSearchQuery}
+          placeholder="Seach Jobs"
+        />
       </div>
 
-      <Table columns={columns} renderRow={renderRow} data={jobsData} />
+      <Table columns={columns} renderRow={renderRow} data={filteredJobs} />
     </div>
   );
 };
