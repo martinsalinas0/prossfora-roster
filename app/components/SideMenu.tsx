@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { isHmrRefresh } from "next/dist/server/app-render/work-unit-async-storage.external";
 
 const menuItems = [
   {
@@ -33,7 +34,16 @@ const menuItems = [
     title: "MONEY",
     items: [
       { icon: FileText, label: "Quotes", href: "/admin/quotes" },
-      { icon: Receipt, label: "Invoices", href: "/admin/invoices" },
+      {
+        icon: Receipt,
+        label: "Customer Invoices",
+        href: "/admin/invoices/customer",
+      },
+      {
+        icon: Receipt,
+        label: "Contractor Invoices",
+        href: "/admin/invoices/contractor",
+      },
       { icon: ClipboardList, label: "Work Items", href: "/admin/workItems" },
       { icon: DollarSign, label: "Payments", href: "/admin/payments" },
     ],
