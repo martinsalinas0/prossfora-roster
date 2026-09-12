@@ -11,14 +11,14 @@ import {
   HardHat,
   Home,
   Receipt,
+  User,
   Users,
   Wrench,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { isHmrRefresh } from "next/dist/server/app-render/work-unit-async-storage.external";
 
-const menuItems = [
+const adminMenuItems = [
   {
     title: "MENU",
     items: [{ icon: Home, label: "Dashboard", href: "/admin" }],
@@ -58,8 +58,48 @@ const menuItems = [
   },
 ];
 
+const employeeMenuItems = [
+  {
+    title: "MENU",
+    items: [
+      { icon: Home, label: "Dashboard", href: "/employee" },
+      { icon: User, label: "My Profile", href: "/employee/profile" },
+    ],
+  },
+];
+
+const contractorMenuItems = [
+  {
+    title: "MENU",
+    items: [
+      { icon: Home, label: "Dashboard", href: "/contractor" },
+      { icon: User, label: "My Profile", href: "/contractor/profile" },
+    ],
+  },
+];
+
+const customerMenuItems = [
+  {
+    title: "MENU",
+    items: [
+      { icon: Home, label: "Dashboard", href: "/customer" },
+      { icon: User, label: "My Profile", href: "/customer/profile" },
+    ],
+  },
+];
+
+const menuConfig: Record<string, typeof adminMenuItems> = {
+  admin: adminMenuItems,
+  employee: employeeMenuItems,
+  contractor: contractorMenuItems,
+  customer: customerMenuItems,
+};
+
 const SideMenu = () => {
   const pathname = usePathname();
+  const section = pathname.split("/")[1] ?? "admin";
+  const menuItems = menuConfig[section] ?? adminMenuItems;
+
   const [open, setOpen] = useState<string[]>(menuItems.map((g) => g.title));
 
   const toggle = (title: string) =>
@@ -68,7 +108,9 @@ const SideMenu = () => {
     );
 
   const isActive = (href: string) =>
-    href === "/admin" ? pathname === href : pathname.startsWith(href);
+    href === "/admin" || href === "/employee" || href === "/contractor" || href === "/customer"
+      ? pathname === href
+      : pathname.startsWith(href);
 
   return (
     <div className="mt-4 text-sm">

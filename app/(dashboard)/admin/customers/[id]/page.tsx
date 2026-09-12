@@ -1,7 +1,7 @@
 import { customersData } from "@/lib/data/mockData";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import CustomerProfile from "./CustomerProfile";
+import CustomerProfile from "@/app/components/profiles/CustomerProfile";
 
 const CustomerDetailPage = async ({
   params,

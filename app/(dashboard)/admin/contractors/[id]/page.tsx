@@ -1,7 +1,7 @@
 import { contractorsData } from "@/lib/data/mockData";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import ContractorProfile from "./ContractorProfile";
+import ContractorProfile from "@/app/components/profiles/ContractorProfile";
 
 const ContractorDetailPage = async ({
   params,

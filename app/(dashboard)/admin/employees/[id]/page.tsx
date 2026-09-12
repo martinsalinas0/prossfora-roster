@@ -1,7 +1,7 @@
 import { employeeData } from "@/lib/data/mockData";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import EmployeeProfile from "./EmployeeProfile";
+import EmployeeProfile from "@/app/components/profiles/EmployeeProfile";
 
 const EmployeeDetailPage = async ({
   params,
