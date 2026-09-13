@@ -1,6 +1,8 @@
+"use client";
+
 import { jobsData } from "@/lib/data/mockData";
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { useParams } from "next/navigation";
 
 const statusStyles: Record<string, string> = {
   open: "bg-pacific-50 text-pacific-700 border-pacific-200",
@@ -11,16 +13,24 @@ const statusStyles: Record<string, string> = {
   cancelled: "bg-muted text-muted-foreground border-border",
 };
 
-const JobDetailPage = async ({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) => {
-  const { id } = await params;
+const JobDetailPage = () => {
+  const { id } = useParams<{ id: string }>();
 
   const job = jobsData.find((j) => j.id === Number(id));
 
-  if (!job) notFound();
+  if (!job) {
+    return (
+      <div className="p-6 space-y-4">
+        <Link
+          href="/admin/jobs"
+          className="inline-flex items-center gap-1 text-sm text-pacific-600 hover:text-olive-700 transition-colors"
+        >
+          ← Back to jobs
+        </Link>
+        <p className="text-sm text-muted-foreground">Job not found.</p>
+      </div>
+    );
+  }
 
   return (
     <div className="p-6 space-y-6">

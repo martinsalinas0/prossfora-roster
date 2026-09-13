@@ -10,6 +10,7 @@ import {
   FileText,
   HardHat,
   Home,
+  Inbox,
   Receipt,
   User,
   Users,
@@ -27,6 +28,7 @@ const adminMenuItems = [
     title: "WORK",
     items: [
       { icon: Wrench, label: "Jobs", href: "/admin/jobs" },
+      { icon: Inbox, label: "Job Requests", href: "/admin/job-requests" },
       { icon: CalendarRange, label: "Schedule", href: "/admin/schedule" },
     ],
   },
@@ -63,6 +65,11 @@ const employeeMenuItems = [
     title: "MENU",
     items: [
       { icon: Home, label: "Dashboard", href: "/employee" },
+      {
+        icon: Inbox,
+        label: "Submit Request",
+        href: "/employee/request-job",
+      },
       { icon: User, label: "My Profile", href: "/employee/profile" },
     ],
   },

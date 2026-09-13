@@ -2,6 +2,7 @@
 
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
+import Link from "next/link";
 import {
   jobsData,
   jobRequestsData,
@@ -61,14 +62,17 @@ const AdminPage = () => {
           <p className="mt-2 text-3xl font-bold text-cerulean">{jobCount}</p>
         </div>
 
-        <div className="rounded-xl border border-border bg-card p-5 shadow-sm">
+        <Link
+          href="/admin/job-requests"
+          className="rounded-xl border border-border bg-card p-5 shadow-sm hover:border-cerulean-300 transition-colors"
+        >
           <p className="text-xs uppercase tracking-wide text-pacific-500">
             Open Requests
           </p>
           <p className="mt-2 text-3xl font-bold text-olive-700">
             {openRequests}
           </p>
-        </div>
+        </Link>
 
         <div className="rounded-xl border border-border bg-card p-5 shadow-sm">
           <p className="text-xs uppercase tracking-wide text-pacific-500">
