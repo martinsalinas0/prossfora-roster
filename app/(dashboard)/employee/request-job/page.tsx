@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { employeeData, jobRequestsData } from "@/lib/data/mockData";
+import { employeeData, jobsData } from "@/lib/data/mockData";
 
 const CURRENT_EMPLOYEE_ID = 3;
 
@@ -31,20 +31,27 @@ const RequestJobPage = () => {
     e.preventDefault();
     if (!canSubmit) return;
 
-    const nextId = Math.max(...jobRequestsData.map((r) => r.id)) + 1;
-    jobRequestsData.push({
+    const nextId = Math.max(...jobsData.map((j) => j.id)) + 1;
+    jobsData.push({
       id: nextId,
-      requestId: `REQ-${4000 + nextId - 1}`,
+      jobId: `JOB-${5000 + nextId - 1}`,
       title: title.trim(),
       description: description.trim(),
       customer: customer.trim(),
+      contractor: null,
       address: address.trim(),
-      priority,
       status: "pending",
-      submittedBy: employee.name,
+      priority,
+      payType: null,
+      hoursWorked: null,
+      scheduledDate: null,
+      scheduledTime: null,
+      completedDate: null,
+      createdBy: employee.name,
+      createdDate: todayISO(),
+      cancellationReason: null,
       reviewedBy: null,
       rejectionReason: null,
-      submittedDate: todayISO(),
     });
 
     router.push("/employee");
@@ -61,7 +68,7 @@ const RequestJobPage = () => {
 
       <div className="rounded-xl border border-border bg-card shadow-sm overflow-hidden max-w-xl">
         <div className="border-b border-border bg-cerulean-50/60 px-6 py-4">
-          <h1 className="font-semibold text-cerulean">Submit a Job Request</h1>
+          <h1 className="font-semibold text-cerulean">Submit a Job</h1>
         </div>
 
         <form onSubmit={handleSubmit} className="p-6 space-y-4">
@@ -136,7 +143,7 @@ const RequestJobPage = () => {
             disabled={!canSubmit}
             className="rounded-md bg-cerulean px-3 py-1.5 text-sm font-medium text-white hover:bg-cerulean-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Submit Request
+            Submit Job
           </button>
         </form>
       </div>

@@ -28,7 +28,6 @@ const adminMenuItems = [
     title: "WORK",
     items: [
       { icon: Wrench, label: "Jobs", href: "/admin/jobs" },
-      { icon: Inbox, label: "Job Requests", href: "/admin/job-requests" },
       { icon: CalendarRange, label: "Schedule", href: "/admin/schedule" },
     ],
   },

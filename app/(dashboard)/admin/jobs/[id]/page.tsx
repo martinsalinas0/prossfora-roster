@@ -1,24 +1,24 @@
 "use client";
 
+import { useState } from "react";
+import StatusBadge from "@/app/components/StatusBadge";
 import { jobsData } from "@/lib/data/mockData";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 
-const statusStyles: Record<string, string> = {
-  open: "bg-pacific-50 text-pacific-700 border-pacific-200",
-  needs_quote: "bg-yarrow-50 text-yarrow-700 border-yarrow-200",
-  quote_pending: "bg-yarrow-50 text-yarrow-700 border-yarrow-200",
-  in_progress: "bg-olive-50 text-olive-800 border-olive-200",
-  completed: "bg-cerulean-50 text-cerulean-700 border-cerulean-200",
-  cancelled: "bg-muted text-muted-foreground border-border",
-};
+// TEMPORARY: no auth yet, so approvals/rejections are attributed to a fixed
+// mock admin until real sessions exist.
+const CURRENT_ADMIN_NAME = "Diane Okafor";
 
 const JobDetailPage = () => {
   const { id } = useParams<{ id: string }>();
 
-  const job = jobsData.find((j) => j.id === Number(id));
+  const found = jobsData.find((j) => j.id === Number(id));
+  const [current, setCurrent] = useState<any>(found);
+  const [rejecting, setRejecting] = useState(false);
+  const [rejectionReason, setRejectionReason] = useState("");
 
-  if (!job) {
+  if (!current) {
     return (
       <div className="p-6 space-y-4">
         <Link
@@ -31,6 +31,28 @@ const JobDetailPage = () => {
       </div>
     );
   }
+
+  const job = current;
+
+  const handleApprove = () => {
+    const updated = { ...job, status: "open", reviewedBy: CURRENT_ADMIN_NAME };
+    const liveJob = jobsData.find((j) => j.id === job.id);
+    if (liveJob) Object.assign(liveJob, updated);
+    setCurrent(updated);
+  };
+
+  const handleReject = () => {
+    const updated = {
+      ...job,
+      status: "rejected",
+      reviewedBy: CURRENT_ADMIN_NAME,
+      rejectionReason: rejectionReason.trim() || "No reason given",
+    };
+    const liveJob = jobsData.find((j) => j.id === job.id);
+    if (liveJob) Object.assign(liveJob, updated);
+    setCurrent(updated);
+    setRejecting(false);
+  };
 
   return (
     <div className="p-6 space-y-6">
@@ -52,14 +74,7 @@ const JobDetailPage = () => {
             </div>
 
             <div className="flex flex-wrap gap-2">
-              <span
-                className={`rounded-full border px-3 py-1 text-xs font-medium ${
-                  statusStyles[job.status] ??
-                  "bg-muted text-muted-foreground border-border"
-                }`}
-              >
-                {job.status.replace(/_/g, " ")}
-              </span>
+              <StatusBadge status={job.status} />
               <span className="rounded-full bg-yarrow-50 px-3 py-1 text-xs font-medium text-yarrow-700 border border-yarrow-200 capitalize">
                 {job.priority}
               </span>
@@ -71,6 +86,54 @@ const JobDetailPage = () => {
           </p>
         </div>
       </div>
+
+      {job.status === "pending" && (
+        <div className="rounded-xl border border-border bg-card p-5 shadow-sm space-y-4">
+          {!rejecting ? (
+            <div className="flex gap-2">
+              <button
+                onClick={handleApprove}
+                className="rounded-md bg-cerulean px-3 py-1.5 text-sm font-medium text-white hover:bg-cerulean-700 transition-colors"
+              >
+                Approve
+              </button>
+              <button
+                onClick={() => setRejecting(true)}
+                className="rounded-md border border-border px-3 py-1.5 text-sm font-medium text-pacific-600 hover:bg-muted transition-colors"
+              >
+                Reject
+              </button>
+            </div>
+          ) : (
+            <div className="space-y-3">
+              <label className="block text-xs uppercase tracking-wide text-pacific-500">
+                Rejection reason
+              </label>
+              <textarea
+                value={rejectionReason}
+                onChange={(e) => setRejectionReason(e.target.value)}
+                rows={3}
+                className="w-full rounded-md border border-input bg-card px-2 py-1.5 text-sm outline-none focus:ring-2 focus:ring-cerulean-400"
+                placeholder="Why is this job being rejected?"
+              />
+              <div className="flex gap-2">
+                <button
+                  onClick={handleReject}
+                  className="rounded-md bg-cerulean px-3 py-1.5 text-sm font-medium text-white hover:bg-cerulean-700 transition-colors"
+                >
+                  Confirm Rejection
+                </button>
+                <button
+                  onClick={() => setRejecting(false)}
+                  className="rounded-md border border-border px-3 py-1.5 text-sm font-medium text-pacific-600 hover:bg-muted transition-colors"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+      )}
 
       <div className="overflow-hidden rounded-xl border border-border bg-card shadow-sm">
         <div className="border-b border-border bg-cerulean-50/60 px-6 py-4">
@@ -152,6 +215,17 @@ const JobDetailPage = () => {
             </dd>
           </div>
 
+          {job.reviewedBy && (
+            <div className="border-l-2 border-olive-300 pl-3">
+              <dt className="text-xs uppercase tracking-wide text-pacific-500">
+                Reviewed By
+              </dt>
+              <dd className="mt-1 font-medium text-cerulean-800">
+                {job.reviewedBy}
+              </dd>
+            </div>
+          )}
+
           {job.cancellationReason && (
             <div className="sm:col-span-2 border-l-2 border-yarrow-300 pl-3">
               <dt className="text-xs uppercase tracking-wide text-pacific-500">
@@ -159,6 +233,17 @@ const JobDetailPage = () => {
               </dt>
               <dd className="mt-1 font-medium text-cerulean-800">
                 {job.cancellationReason}
+              </dd>
+            </div>
+          )}
+
+          {job.rejectionReason && (
+            <div className="sm:col-span-2 border-l-2 border-yarrow-300 pl-3">
+              <dt className="text-xs uppercase tracking-wide text-pacific-500">
+                Rejection Reason
+              </dt>
+              <dd className="mt-1 font-medium text-cerulean-800">
+                {job.rejectionReason}
               </dd>
             </div>
           )}

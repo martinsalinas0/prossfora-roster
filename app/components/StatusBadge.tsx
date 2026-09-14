@@ -6,7 +6,7 @@ const statusStyles: Record<string, string> = {
   in_progress: "bg-olive-50 text-olive-800 border-olive-200",
   completed: "bg-cerulean-50 text-cerulean-700 border-cerulean-200",
   cancelled: "bg-muted text-muted-foreground border-border",
-  // quote / job-request statuses
+  // quote statuses
   draft: "bg-muted text-muted-foreground border-border",
   sent: "bg-pacific-50 text-pacific-700 border-pacific-200",
   viewed: "bg-yarrow-50 text-yarrow-700 border-yarrow-200",

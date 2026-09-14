@@ -5,7 +5,6 @@ import "react-calendar/dist/Calendar.css";
 import Link from "next/link";
 import {
   jobsData,
-  jobRequestsData,
   customerInvoicesData,
   paymentsData,
 } from "@/lib/data/mockData";
@@ -18,9 +17,7 @@ const currency = (n: number) =>
 const AdminPage = () => {
   const jobCount = jobsData.length;
 
-  const openRequests = jobRequestsData.filter(
-    (r) => r.status === "pending",
-  ).length;
+  const pendingJobs = jobsData.filter((j) => j.status === "pending").length;
 
   const pendingInvoices = customerInvoicesData.filter(
     (i) => i.status !== "paid" && i.status !== "draft",
@@ -63,14 +60,14 @@ const AdminPage = () => {
         </div>
 
         <Link
-          href="/admin/job-requests"
+          href="/admin/jobs"
           className="rounded-xl border border-border bg-card p-5 shadow-sm hover:border-cerulean-300 transition-colors"
         >
           <p className="text-xs uppercase tracking-wide text-pacific-500">
-            Open Requests
+            Pending Jobs
           </p>
           <p className="mt-2 text-3xl font-bold text-olive-700">
-            {openRequests}
+            {pendingJobs}
           </p>
         </Link>
 
@@ -161,7 +158,7 @@ const AdminPage = () => {
                 <p className="text-xs text-pacific-500">INV-2026-2004</p>
               </li>
               <li className="px-5 py-3">
-                <p className="text-sm text-cerulean-800">New job request</p>
+                <p className="text-sm text-cerulean-800">New job submitted</p>
                 <p className="text-xs text-pacific-500">Water heater leaking</p>
               </li>
               <li className="px-5 py-3">

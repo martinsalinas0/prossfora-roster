@@ -1,12 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import {
-  employeeData,
-  jobsData,
-  quotesData,
-  jobRequestsData,
-} from "@/lib/data/mockData";
+import { employeeData, jobsData, quotesData } from "@/lib/data/mockData";
 import StatusBadge from "@/app/components/StatusBadge";
 
 // TEMPORARY: no auth yet, so the employee portal is fixed to one mock staff
@@ -21,9 +16,6 @@ const EmployeeDashboardPage = () => {
 
   const myJobs = jobsData.filter((j) => j.createdBy === employee.name);
   const myQuotes = quotesData.filter((q) => q.createdBy === employee.name);
-  const myRequests = jobRequestsData.filter(
-    (r) => r.submittedBy === employee.name,
-  );
   const openJobs = myJobs.filter(
     (j) => j.status !== "completed" && j.status !== "cancelled",
   );
@@ -42,7 +34,7 @@ const EmployeeDashboardPage = () => {
             href="/employee/request-job"
             className="rounded-md bg-cerulean px-3 py-1.5 text-sm font-medium text-white hover:bg-cerulean-700 transition-colors w-fit"
           >
-            Submit a Job Request
+            Submit a Job
           </Link>
           <Link
             href="/employee/profile"
@@ -140,37 +132,6 @@ const EmployeeDashboardPage = () => {
         )}
       </div>
 
-      <div className="overflow-hidden rounded-xl border border-border bg-card shadow-sm">
-        <div className="border-b border-border bg-cerulean-50/60 px-6 py-4">
-          <h2 className="font-semibold text-cerulean">
-            My Submitted Requests
-          </h2>
-        </div>
-        {myRequests.length === 0 ? (
-          <p className="px-6 py-6 text-sm text-muted-foreground">
-            No job requests submitted yet.
-          </p>
-        ) : (
-          <ul className="divide-y divide-border">
-            {myRequests.map((request) => (
-              <li
-                key={request.id}
-                className="px-6 py-4 flex items-center justify-between gap-4"
-              >
-                <div>
-                  <p className="text-sm font-medium text-cerulean-800">
-                    {request.title}
-                  </p>
-                  <p className="text-xs text-muted-foreground">
-                    {request.customer}
-                  </p>
-                </div>
-                <StatusBadge status={request.status} />
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
     </div>
   );
 };
