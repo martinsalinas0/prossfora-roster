@@ -1,20 +1,18 @@
 "use client";
 
 import Image from "next/image";
-import { employeeData } from "@/lib/data/mockData";
+import type { Employee } from "@/lib/data/mockData";
+import { useData } from "@/lib/store/DataProvider";
+import DetailField from "@/app/components/DetailField";
 import { useState } from "react";
 
-type Employee = (typeof employeeData)[number];
-
-const inputClass =
-  "mt-1 w-full rounded-md border border-input bg-card px-2 py-1.5 text-sm font-medium text-cerulean-800 outline-none focus:ring-2 focus:ring-cerulean-400";
-
 const EmployeeProfile = ({ employee }: { employee: Employee }) => {
+  const { updateEmployee } = useData();
   const [isEditing, setIsEditing] = useState(false);
   const [form, setForm] = useState(employee);
 
   const handleChange = (field: keyof Employee, value: string) => {
-    setForm((prev) => ({ ...prev, [field]: value }));
+    setForm((prev) => ({ ...prev, [field]: value }) as Employee);
   };
 
   const handleCancel = () => {
@@ -23,8 +21,7 @@ const EmployeeProfile = ({ employee }: { employee: Employee }) => {
   };
 
   const handleSave = () => {
-    // TEMPORARY: no backend yet, persist in-memory for this session only
-    Object.assign(employee, form);
+    updateEmployee(employee.id, form);
     setIsEditing(false);
   };
 
@@ -138,77 +135,36 @@ const EmployeeProfile = ({ employee }: { employee: Employee }) => {
         </div>
 
         <dl className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-6 p-6 text-sm">
-          <div className="border-l-2 border-olive-300 pl-3">
-            <dt className="text-xs uppercase tracking-wide text-pacific-500">
-              Email
-            </dt>
-            {isEditing ? (
-              <input
-                type="email"
-                value={form.email}
-                onChange={(e) => handleChange("email", e.target.value)}
-                className={inputClass}
-              />
-            ) : (
-              <dd className="mt-1 font-medium text-cerulean-800">
-                {form.email}
-              </dd>
-            )}
-          </div>
-
-          <div className="border-l-2 border-pacific-300 pl-3">
-            <dt className="text-xs uppercase tracking-wide text-pacific-500">
-              Phone
-            </dt>
-            {isEditing ? (
-              <input
-                type="tel"
-                value={form.phone}
-                onChange={(e) => handleChange("phone", e.target.value)}
-                className={inputClass}
-              />
-            ) : (
-              <dd className="mt-1 font-medium text-cerulean-800">
-                {form.phone}
-              </dd>
-            )}
-          </div>
-
-          <div className="border-l-2 border-yarrow-300 pl-3">
-            <dt className="text-xs uppercase tracking-wide text-pacific-500">
-              Last Login
-            </dt>
-            <dd className="mt-1 font-medium text-cerulean-800">
-              {form.lastLogin}
-            </dd>
-          </div>
-
-          <div className="border-l-2 border-cerulean-300 pl-3">
-            <dt className="text-xs uppercase tracking-wide text-pacific-500">
-              Employee ID
-            </dt>
-            <dd className="mt-1 font-medium text-cerulean-800">
-              {form.employeeId}
-            </dd>
-          </div>
-
-          <div className="sm:col-span-2 border-l-2 border-olive-300 pl-3">
-            <dt className="text-xs uppercase tracking-wide text-pacific-500">
-              Address
-            </dt>
-            {isEditing ? (
-              <input
-                type="text"
-                value={form.address}
-                onChange={(e) => handleChange("address", e.target.value)}
-                className={inputClass}
-              />
-            ) : (
-              <dd className="mt-1 font-medium text-cerulean-800">
-                {form.address}
-              </dd>
-            )}
-          </div>
+          <DetailField
+            label="Email"
+            value={form.email}
+            accent="olive"
+            editing={isEditing}
+            inputType="email"
+            onChange={(v) => handleChange("email", v)}
+          />
+          <DetailField
+            label="Phone"
+            value={form.phone}
+            accent="pacific"
+            editing={isEditing}
+            inputType="tel"
+            onChange={(v) => handleChange("phone", v)}
+          />
+          <DetailField label="Last Login" value={form.lastLogin} accent="yarrow" />
+          <DetailField
+            label="Employee ID"
+            value={form.employeeId}
+            accent="cerulean"
+          />
+          <DetailField
+            label="Address"
+            value={form.address}
+            accent="olive"
+            span
+            editing={isEditing}
+            onChange={(v) => handleChange("address", v)}
+          />
         </dl>
       </div>
     </>

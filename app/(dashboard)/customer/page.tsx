@@ -1,23 +1,19 @@
-import Link from "next/link";
-import {
-  customersData,
-  jobsData,
-  quotesData,
-  customerInvoicesData,
-} from "@/lib/data/mockData";
-import StatusBadge from "@/app/components/StatusBadge";
+"use client";
 
-// TEMPORARY: no auth yet, so the customer portal is fixed to one mock
-// customer (James Delgado) until real sessions exist.
-const CURRENT_CUSTOMER_ID = 1;
+import Link from "next/link";
+import { quotesData, customerInvoicesData } from "@/lib/data/mockData";
+import { useData } from "@/lib/store/DataProvider";
+import { CURRENT_CUSTOMER_ID } from "@/lib/currentUser";
+import StatusBadge from "@/app/components/StatusBadge";
 
 const currency = (n: number) =>
   `$${n.toLocaleString("en-US", { minimumFractionDigits: 2 })}`;
 
 const CustomerDashboardPage = () => {
-  const customer = customersData.find((c) => c.id === CURRENT_CUSTOMER_ID)!;
+  const { customers, jobs } = useData();
+  const customer = customers.find((c) => c.id === CURRENT_CUSTOMER_ID)!;
 
-  const myJobs = jobsData.filter((j) => j.customer === customer.name);
+  const myJobs = jobs.filter((j) => j.customer === customer.name);
   const openJobs = myJobs.filter(
     (j) => j.status !== "completed" && j.status !== "cancelled",
   );

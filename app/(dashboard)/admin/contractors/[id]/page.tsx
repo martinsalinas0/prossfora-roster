@@ -1,18 +1,14 @@
-import { contractorsData } from "@/lib/data/mockData";
+"use client";
+
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { useParams } from "next/navigation";
+import { useData } from "@/lib/store/DataProvider";
 import ContractorProfile from "@/app/components/profiles/ContractorProfile";
 
-const ContractorDetailPage = async ({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) => {
-  const { id } = await params;
-
-  const contractor = contractorsData.find((c) => c.id === Number(id));
-
-  if (!contractor) notFound();
+const ContractorDetailPage = () => {
+  const { id } = useParams<{ id: string }>();
+  const { contractors } = useData();
+  const contractor = contractors.find((c) => c.id === Number(id));
 
   return (
     <div className="p-6 space-y-6">
@@ -23,7 +19,11 @@ const ContractorDetailPage = async ({
         ← Back to contractors
       </Link>
 
-      <ContractorProfile contractor={contractor} />
+      {contractor ? (
+        <ContractorProfile contractor={contractor} />
+      ) : (
+        <p className="text-sm text-muted-foreground">Contractor not found.</p>
+      )}
     </div>
   );
 };

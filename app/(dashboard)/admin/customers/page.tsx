@@ -1,9 +1,8 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import Table from "@/app/components/Table";
-import { customersData } from "@/lib/data/mockData";
+import { useData } from "@/lib/store/DataProvider";
 import SearchBar from "@/app/components/SearchBar";
 import { useState } from "react";
 
@@ -65,11 +64,10 @@ const renderRow = (item: any) => (
 );
 
 export default function CustomerListPage() {
+  const { customers } = useData();
   const [searchQuery, setSearchQuery] = useState("");
 
-  //fetch customers data from backend DB
-
-  const filteredCustomers = customersData.filter((customer) => {
+  const filteredCustomers = customers.filter((customer) => {
     const q = searchQuery.toLowerCase();
     return (
       customer.name.toLowerCase().includes(q) ||

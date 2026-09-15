@@ -1,18 +1,14 @@
-import { customersData } from "@/lib/data/mockData";
+"use client";
+
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { useParams } from "next/navigation";
+import { useData } from "@/lib/store/DataProvider";
 import CustomerProfile from "@/app/components/profiles/CustomerProfile";
 
-const CustomerDetailPage = async ({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) => {
-  const { id } = await params;
-
-  const customer = customersData.find((c) => c.id === Number(id));
-
-  if (!customer) notFound();
+const CustomerDetailPage = () => {
+  const { id } = useParams<{ id: string }>();
+  const { customers } = useData();
+  const customer = customers.find((c) => c.id === Number(id));
 
   return (
     <div className="p-6 space-y-6">
@@ -23,7 +19,11 @@ const CustomerDetailPage = async ({
         ← Back to customers
       </Link>
 
-      <CustomerProfile customer={customer} />
+      {customer ? (
+        <CustomerProfile customer={customer} />
+      ) : (
+        <p className="text-sm text-muted-foreground">Customer not found.</p>
+      )}
     </div>
   );
 };

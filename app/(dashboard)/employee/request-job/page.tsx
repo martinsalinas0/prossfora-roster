@@ -3,9 +3,8 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { employeeData, jobsData } from "@/lib/data/mockData";
-
-const CURRENT_EMPLOYEE_ID = 3;
+import { useData } from "@/lib/store/DataProvider";
+import { CURRENT_EMPLOYEE_ID } from "@/lib/currentUser";
 
 const todayISO = () => new Date().toISOString().slice(0, 10);
 
@@ -14,7 +13,8 @@ const inputClass =
 
 const RequestJobPage = () => {
   const router = useRouter();
-  const employee = employeeData.find((e) => e.id === CURRENT_EMPLOYEE_ID)!;
+  const { employees, addJob } = useData();
+  const employee = employees.find((e) => e.id === CURRENT_EMPLOYEE_ID)!;
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -31,10 +31,7 @@ const RequestJobPage = () => {
     e.preventDefault();
     if (!canSubmit) return;
 
-    const nextId = Math.max(...jobsData.map((j) => j.id)) + 1;
-    jobsData.push({
-      id: nextId,
-      jobId: `JOB-${5000 + nextId - 1}`,
+    addJob({
       title: title.trim(),
       description: description.trim(),
       customer: customer.trim(),

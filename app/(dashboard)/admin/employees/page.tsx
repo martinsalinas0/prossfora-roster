@@ -2,7 +2,7 @@
 
 import SearchBar from "@/app/components/SearchBar";
 import Table from "@/app/components/Table";
-import { employeeData } from "@/lib/data/mockData";
+import { useData } from "@/lib/store/DataProvider";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -43,11 +43,10 @@ const renderRow = (item: any) => (
 );
 
 const EmployeesPage = () => {
+  const { employees } = useData();
   const [searchQuery, setSearchQuery] = useState("");
 
-  //fetch emplyeeData from backend DB
-
-  const filteredEmployees = employeeData.filter((employee) => {
+  const filteredEmployees = employees.filter((employee) => {
     const q = searchQuery.toLowerCase();
     return (
       employee.name.toLowerCase().includes(q) ||

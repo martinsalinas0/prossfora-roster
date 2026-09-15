@@ -1,11 +1,13 @@
+"use client";
+
 import Link from "next/link";
-import { customersData } from "@/lib/data/mockData";
+import { useData } from "@/lib/store/DataProvider";
+import { CURRENT_CUSTOMER_ID } from "@/lib/currentUser";
 import CustomerProfile from "@/app/components/profiles/CustomerProfile";
 
-const CURRENT_CUSTOMER_ID = 1;
-
 const CustomerSelfProfilePage = () => {
-  const customer = customersData.find((c) => c.id === CURRENT_CUSTOMER_ID)!;
+  const { customers } = useData();
+  const customer = customers.find((c) => c.id === CURRENT_CUSTOMER_ID)!;
 
   return (
     <div className="p-6 space-y-6">

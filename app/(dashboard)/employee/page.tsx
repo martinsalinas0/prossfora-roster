@@ -1,20 +1,19 @@
 "use client";
 
 import Link from "next/link";
-import { employeeData, jobsData, quotesData } from "@/lib/data/mockData";
+import { quotesData } from "@/lib/data/mockData";
+import { useData } from "@/lib/store/DataProvider";
+import { CURRENT_EMPLOYEE_ID } from "@/lib/currentUser";
 import StatusBadge from "@/app/components/StatusBadge";
-
-// TEMPORARY: no auth yet, so the employee portal is fixed to one mock staff
-// member (Paul Brennan) until real sessions exist.
-const CURRENT_EMPLOYEE_ID = 3;
 
 const currency = (n: number) =>
   `$${n.toLocaleString("en-US", { minimumFractionDigits: 2 })}`;
 
 const EmployeeDashboardPage = () => {
-  const employee = employeeData.find((e) => e.id === CURRENT_EMPLOYEE_ID)!;
+  const { employees, jobs } = useData();
+  const employee = employees.find((e) => e.id === CURRENT_EMPLOYEE_ID)!;
 
-  const myJobs = jobsData.filter((j) => j.createdBy === employee.name);
+  const myJobs = jobs.filter((j) => j.createdBy === employee.name);
   const myQuotes = quotesData.filter((q) => q.createdBy === employee.name);
   const openJobs = myJobs.filter(
     (j) => j.status !== "completed" && j.status !== "cancelled",

@@ -1,11 +1,13 @@
+"use client";
+
 import Link from "next/link";
-import { employeeData } from "@/lib/data/mockData";
+import { useData } from "@/lib/store/DataProvider";
+import { CURRENT_EMPLOYEE_ID } from "@/lib/currentUser";
 import EmployeeProfile from "@/app/components/profiles/EmployeeProfile";
 
-const CURRENT_EMPLOYEE_ID = 3;
-
 const EmployeeSelfProfilePage = () => {
-  const employee = employeeData.find((e) => e.id === CURRENT_EMPLOYEE_ID)!;
+  const { employees } = useData();
+  const employee = employees.find((e) => e.id === CURRENT_EMPLOYEE_ID)!;
 
   return (
     <div className="p-6 space-y-6">

@@ -1,13 +1,13 @@
+"use client";
+
 import Link from "next/link";
-import { contractorsData } from "@/lib/data/mockData";
+import { useData } from "@/lib/store/DataProvider";
+import { CURRENT_CONTRACTOR_ID } from "@/lib/currentUser";
 import ContractorProfile from "@/app/components/profiles/ContractorProfile";
 
-const CURRENT_CONTRACTOR_ID = 5;
-
 const ContractorSelfProfilePage = () => {
-  const contractor = contractorsData.find(
-    (c) => c.id === CURRENT_CONTRACTOR_ID,
-  )!;
+  const { contractors } = useData();
+  const contractor = contractors.find((c) => c.id === CURRENT_CONTRACTOR_ID)!;
 
   return (
     <div className="p-6 space-y-6">

@@ -1,14 +1,15 @@
 "use client";
 
-import { contractorsData } from "@/lib/data/mockData";
+import type { Contractor } from "@/lib/data/mockData";
+import { useData } from "@/lib/store/DataProvider";
+import DetailField from "@/app/components/DetailField";
 import { useState } from "react";
-
-type Contractor = (typeof contractorsData)[number];
 
 const inputClass =
   "mt-1 w-full rounded-md border border-input bg-card px-2 py-1.5 text-sm font-medium text-cerulean-800 outline-none focus:ring-2 focus:ring-cerulean-400";
 
 const ContractorProfile = ({ contractor }: { contractor: Contractor }) => {
+  const { updateContractor } = useData();
   const [isEditing, setIsEditing] = useState(false);
   const [form, setForm] = useState(contractor);
 
@@ -16,7 +17,7 @@ const ContractorProfile = ({ contractor }: { contractor: Contractor }) => {
     field: keyof Contractor,
     value: string | number
   ) => {
-    setForm((prev) => ({ ...prev, [field]: value }));
+    setForm((prev) => ({ ...prev, [field]: value }) as Contractor);
   };
 
   const handleCancel = () => {
@@ -25,8 +26,7 @@ const ContractorProfile = ({ contractor }: { contractor: Contractor }) => {
   };
 
   const handleSave = () => {
-    // TEMPORARY: no backend yet, persist in-memory for this session only
-    Object.assign(contractor, form);
+    updateContractor(contractor.id, form);
     setIsEditing(false);
   };
 
@@ -197,68 +197,35 @@ const ContractorProfile = ({ contractor }: { contractor: Contractor }) => {
         </div>
 
         <dl className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-6 p-6 text-sm">
-          <div className="border-l-2 border-olive-300 pl-3">
-            <dt className="text-xs uppercase tracking-wide text-pacific-500">
-              Email
-            </dt>
-            {isEditing ? (
-              <input
-                type="email"
-                value={form.email}
-                onChange={(e) => handleChange("email", e.target.value)}
-                className={inputClass}
-              />
-            ) : (
-              <dd className="mt-1 font-medium text-cerulean-800">
-                {form.email}
-              </dd>
-            )}
-          </div>
-
-          <div className="border-l-2 border-pacific-300 pl-3">
-            <dt className="text-xs uppercase tracking-wide text-pacific-500">
-              Phone
-            </dt>
-            {isEditing ? (
-              <input
-                type="tel"
-                value={form.phone}
-                onChange={(e) => handleChange("phone", e.target.value)}
-                className={inputClass}
-              />
-            ) : (
-              <dd className="mt-1 font-medium text-cerulean-800">
-                {form.phone}
-              </dd>
-            )}
-          </div>
-
-          <div className="border-l-2 border-yarrow-300 pl-3">
-            <dt className="text-xs uppercase tracking-wide text-pacific-500">
-              Contractor ID
-            </dt>
-            <dd className="mt-1 font-medium text-cerulean-800">
-              {form.contractorId}
-            </dd>
-          </div>
-
-          <div className="sm:col-span-2 border-l-2 border-cerulean-300 pl-3">
-            <dt className="text-xs uppercase tracking-wide text-pacific-500">
-              Address
-            </dt>
-            {isEditing ? (
-              <input
-                type="text"
-                value={form.address}
-                onChange={(e) => handleChange("address", e.target.value)}
-                className={inputClass}
-              />
-            ) : (
-              <dd className="mt-1 font-medium text-cerulean-800">
-                {form.address}
-              </dd>
-            )}
-          </div>
+          <DetailField
+            label="Email"
+            value={form.email}
+            accent="olive"
+            editing={isEditing}
+            inputType="email"
+            onChange={(v) => handleChange("email", v)}
+          />
+          <DetailField
+            label="Phone"
+            value={form.phone}
+            accent="pacific"
+            editing={isEditing}
+            inputType="tel"
+            onChange={(v) => handleChange("phone", v)}
+          />
+          <DetailField
+            label="Contractor ID"
+            value={form.contractorId}
+            accent="yarrow"
+          />
+          <DetailField
+            label="Address"
+            value={form.address}
+            accent="cerulean"
+            span
+            editing={isEditing}
+            onChange={(v) => handleChange("address", v)}
+          />
 
           <div className="sm:col-span-2 border-l-2 border-olive-300 pl-3">
             <dt className="text-xs uppercase tracking-wide text-pacific-500">

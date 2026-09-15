@@ -1,3 +1,10 @@
+import type { JobStatus, PersonStatus } from "@/lib/data/mockData";
+
+// Job and person statuses come from typed domains in mockData.ts, so a typo
+// there is a compile error. Quote/invoice/payment statuses aren't typed yet,
+// so `string` keeps this component usable for those domains too.
+type KnownStatus = JobStatus | PersonStatus;
+
 const statusStyles: Record<string, string> = {
   // job statuses
   open: "bg-pacific-50 text-pacific-700 border-pacific-200",
@@ -31,7 +38,7 @@ const StatusBadge = ({
   status,
   className = "",
 }: {
-  status: string;
+  status: KnownStatus | (string & {});
   className?: string;
 }) => (
   <span

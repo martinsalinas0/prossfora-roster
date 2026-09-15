@@ -3,11 +3,8 @@
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import Link from "next/link";
-import {
-  jobsData,
-  customerInvoicesData,
-  paymentsData,
-} from "@/lib/data/mockData";
+import { customerInvoicesData, paymentsData } from "@/lib/data/mockData";
+import { useData } from "@/lib/store/DataProvider";
 import JobsByStatusChart from "@/app/components/charts/JobsByStatusChart";
 import RevenueOverTimeChart from "@/app/components/charts/RevenueOverTimeChart";
 
@@ -15,6 +12,7 @@ const currency = (n: number) =>
   `$${n.toLocaleString("en-US", { minimumFractionDigits: 2 })}`;
 
 const AdminPage = () => {
+  const { jobs: jobsData } = useData();
   const jobCount = jobsData.length;
 
   const pendingJobs = jobsData.filter((j) => j.status === "pending").length;

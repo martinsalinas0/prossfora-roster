@@ -1,24 +1,19 @@
-import Link from "next/link";
-import {
-  contractorsData,
-  jobsData,
-  contractorInvoicesData,
-} from "@/lib/data/mockData";
-import StatusBadge from "@/app/components/StatusBadge";
+"use client";
 
-// TEMPORARY: no auth yet, so the contractor portal is fixed to one mock
-// contractor (Marcus Bell) until real sessions exist.
-const CURRENT_CONTRACTOR_ID = 5;
+import Link from "next/link";
+import { contractorInvoicesData } from "@/lib/data/mockData";
+import { useData } from "@/lib/store/DataProvider";
+import { CURRENT_CONTRACTOR_ID } from "@/lib/currentUser";
+import StatusBadge from "@/app/components/StatusBadge";
 
 const currency = (n: number) =>
   `$${n.toLocaleString("en-US", { minimumFractionDigits: 2 })}`;
 
 const ContractorDashboardPage = () => {
-  const contractor = contractorsData.find(
-    (c) => c.id === CURRENT_CONTRACTOR_ID,
-  )!;
+  const { contractors, jobs } = useData();
+  const contractor = contractors.find((c) => c.id === CURRENT_CONTRACTOR_ID)!;
 
-  const myJobs = jobsData.filter((j) => j.contractor === contractor.name);
+  const myJobs = jobs.filter((j) => j.contractor === contractor.name);
   const inProgressJobs = myJobs.filter((j) => j.status === "in_progress");
   const myInvoices = contractorInvoicesData.filter(
     (i) => i.contractor === contractor.name,

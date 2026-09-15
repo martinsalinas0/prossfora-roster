@@ -2,23 +2,20 @@
 
 import { useState } from "react";
 import StatusBadge from "@/app/components/StatusBadge";
-import { jobsData } from "@/lib/data/mockData";
+import DetailField from "@/app/components/DetailField";
+import { useData } from "@/lib/store/DataProvider";
+import { CURRENT_ADMIN_ID } from "@/lib/currentUser";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 
-// TEMPORARY: no auth yet, so approvals/rejections are attributed to a fixed
-// mock admin until real sessions exist.
-const CURRENT_ADMIN_NAME = "Diane Okafor";
-
 const JobDetailPage = () => {
   const { id } = useParams<{ id: string }>();
-
-  const found = jobsData.find((j) => j.id === Number(id));
-  const [current, setCurrent] = useState<any>(found);
+  const { jobs, employees, updateJob } = useData();
+  const job = jobs.find((j) => j.id === Number(id));
   const [rejecting, setRejecting] = useState(false);
   const [rejectionReason, setRejectionReason] = useState("");
 
-  if (!current) {
+  if (!job) {
     return (
       <div className="p-6 space-y-4">
         <Link
@@ -32,25 +29,19 @@ const JobDetailPage = () => {
     );
   }
 
-  const job = current;
+  const currentAdminName = employees.find((e) => e.id === CURRENT_ADMIN_ID)!
+    .name;
 
   const handleApprove = () => {
-    const updated = { ...job, status: "open", reviewedBy: CURRENT_ADMIN_NAME };
-    const liveJob = jobsData.find((j) => j.id === job.id);
-    if (liveJob) Object.assign(liveJob, updated);
-    setCurrent(updated);
+    updateJob(job.id, { status: "open", reviewedBy: currentAdminName });
   };
 
   const handleReject = () => {
-    const updated = {
-      ...job,
+    updateJob(job.id, {
       status: "rejected",
-      reviewedBy: CURRENT_ADMIN_NAME,
+      reviewedBy: currentAdminName,
       rejectionReason: rejectionReason.trim() || "No reason given",
-    };
-    const liveJob = jobsData.find((j) => j.id === job.id);
-    if (liveJob) Object.assign(liveJob, updated);
-    setCurrent(updated);
+    });
     setRejecting(false);
   };
 
@@ -141,111 +132,73 @@ const JobDetailPage = () => {
         </div>
 
         <dl className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-6 p-6 text-sm">
-          <div className="border-l-2 border-olive-300 pl-3">
-            <dt className="text-xs uppercase tracking-wide text-pacific-500">
-              Customer
-            </dt>
-            <dd className="mt-1 font-medium text-cerulean-800">
-              {job.customer}
-            </dd>
-          </div>
-
-          <div className="border-l-2 border-pacific-300 pl-3">
-            <dt className="text-xs uppercase tracking-wide text-pacific-500">
-              Contractor
-            </dt>
-            <dd className="mt-1 font-medium text-cerulean-800">
-              {job.contractor ?? "Unassigned"}
-            </dd>
-          </div>
-
-          <div className="sm:col-span-2 border-l-2 border-cerulean-300 pl-3">
-            <dt className="text-xs uppercase tracking-wide text-pacific-500">
-              Address
-            </dt>
-            <dd className="mt-1 font-medium text-cerulean-800">{job.address}</dd>
-          </div>
-
-          <div className="border-l-2 border-yarrow-300 pl-3">
-            <dt className="text-xs uppercase tracking-wide text-pacific-500">
-              Scheduled
-            </dt>
-            <dd className="mt-1 font-medium text-cerulean-800">
-              {job.scheduledDate
+          <DetailField label="Customer" value={job.customer} accent="olive" />
+          <DetailField
+            label="Contractor"
+            value={job.contractor ?? "Unassigned"}
+            accent="pacific"
+          />
+          <DetailField
+            label="Address"
+            value={job.address}
+            accent="cerulean"
+            span
+          />
+          <DetailField
+            label="Scheduled"
+            value={
+              job.scheduledDate
                 ? `${job.scheduledDate}${
                     job.scheduledTime ? ` at ${job.scheduledTime}` : ""
                   }`
-                : "Not scheduled"}
-            </dd>
-          </div>
-
-          <div className="border-l-2 border-olive-300 pl-3">
-            <dt className="text-xs uppercase tracking-wide text-pacific-500">
-              Completed
-            </dt>
-            <dd className="mt-1 font-medium text-cerulean-800">
-              {job.completedDate ?? "—"}
-            </dd>
-          </div>
-
-          <div className="border-l-2 border-pacific-300 pl-3">
-            <dt className="text-xs uppercase tracking-wide text-pacific-500">
-              Pay Type
-            </dt>
-            <dd className="mt-1 font-medium text-cerulean-800 capitalize">
-              {job.payType ?? "—"}
-            </dd>
-          </div>
-
-          <div className="border-l-2 border-cerulean-300 pl-3">
-            <dt className="text-xs uppercase tracking-wide text-pacific-500">
-              Hours Worked
-            </dt>
-            <dd className="mt-1 font-medium text-cerulean-800">
-              {job.hoursWorked ?? "—"}
-            </dd>
-          </div>
-
-          <div className="border-l-2 border-yarrow-300 pl-3">
-            <dt className="text-xs uppercase tracking-wide text-pacific-500">
-              Created
-            </dt>
-            <dd className="mt-1 font-medium text-cerulean-800">
-              {job.createdDate} · {job.createdBy}
-            </dd>
-          </div>
-
+                : "Not scheduled"
+            }
+            accent="yarrow"
+          />
+          <DetailField
+            label="Completed"
+            value={job.completedDate ?? "—"}
+            accent="olive"
+          />
+          <DetailField
+            label="Pay Type"
+            value={
+              <span className="capitalize">{job.payType ?? "—"}</span>
+            }
+            accent="pacific"
+          />
+          <DetailField
+            label="Hours Worked"
+            value={job.hoursWorked ?? "—"}
+            accent="cerulean"
+          />
+          <DetailField
+            label="Created"
+            value={`${job.createdDate} · ${job.createdBy}`}
+            accent="yarrow"
+          />
           {job.reviewedBy && (
-            <div className="border-l-2 border-olive-300 pl-3">
-              <dt className="text-xs uppercase tracking-wide text-pacific-500">
-                Reviewed By
-              </dt>
-              <dd className="mt-1 font-medium text-cerulean-800">
-                {job.reviewedBy}
-              </dd>
-            </div>
+            <DetailField
+              label="Reviewed By"
+              value={job.reviewedBy}
+              accent="olive"
+            />
           )}
-
           {job.cancellationReason && (
-            <div className="sm:col-span-2 border-l-2 border-yarrow-300 pl-3">
-              <dt className="text-xs uppercase tracking-wide text-pacific-500">
-                Cancellation Reason
-              </dt>
-              <dd className="mt-1 font-medium text-cerulean-800">
-                {job.cancellationReason}
-              </dd>
-            </div>
+            <DetailField
+              label="Cancellation Reason"
+              value={job.cancellationReason}
+              accent="yarrow"
+              span
+            />
           )}
-
           {job.rejectionReason && (
-            <div className="sm:col-span-2 border-l-2 border-yarrow-300 pl-3">
-              <dt className="text-xs uppercase tracking-wide text-pacific-500">
-                Rejection Reason
-              </dt>
-              <dd className="mt-1 font-medium text-cerulean-800">
-                {job.rejectionReason}
-              </dd>
-            </div>
+            <DetailField
+              label="Rejection Reason"
+              value={job.rejectionReason}
+              accent="yarrow"
+              span
+            />
           )}
         </dl>
       </div>

@@ -3,7 +3,8 @@
 import SearchBar from "@/app/components/SearchBar";
 import StatusBadge from "@/app/components/StatusBadge";
 import Table from "@/app/components/Table";
-import { jobsData } from "@/lib/data/mockData";
+import type { Job } from "@/lib/data/mockData";
+import { useData } from "@/lib/store/DataProvider";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -13,11 +14,6 @@ const priorityStyles: Record<string, string> = {
   high: "text-yarrow-700 font-semibold",
   urgent: "text-yarrow-700 font-semibold",
 };
-
-const statusFilters = [
-  "all",
-  ...Array.from(new Set(jobsData.map((job) => job.status))),
-];
 
 const columns = [
   { header: "Job", accessor: "job" },
@@ -41,7 +37,7 @@ const columns = [
   { header: "Actions", accessor: "actions" },
 ];
 
-const renderRow = (item: (typeof jobsData)[number]) => (
+const renderRow = (item: Job) => (
   <tr
     key={item.id}
     className="border-b border-border even:bg-muted/40 text-sm hover:bg-muted"
@@ -79,10 +75,16 @@ const renderRow = (item: (typeof jobsData)[number]) => (
 );
 
 const JobsListPageForAdmin = () => {
+  const { jobs } = useData();
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
 
-  const filteredJobs = jobsData.filter((job) => {
+  const statusFilters = [
+    "all",
+    ...Array.from(new Set(jobs.map((job) => job.status))),
+  ];
+
+  const filteredJobs = jobs.filter((job) => {
     const q = searchQuery.toLowerCase();
     const matchesQuery =
       job.title.toLowerCase().includes(q) ||

@@ -1,9 +1,89 @@
 // TEMPORARY DATA
 
-export let role = "admin";
+export type PersonStatus = "active" | "inactive";
+export type EmployeeRole = "admin" | "manager" | "employee";
+
+export interface Employee {
+  id: number;
+  employeeId: string;
+  name: string;
+  email: string;
+  photo: string;
+  phone: string;
+  role: EmployeeRole;
+  status: PersonStatus;
+  lastLogin: string;
+  address: string;
+}
+
+export interface Contractor {
+  id: number;
+  contractorId: string;
+  name: string;
+  company: string | null;
+  email: string;
+  photo: string;
+  phone: string;
+  trades: string[];
+  hourlyRate: number;
+  flatRate: number;
+  status: PersonStatus;
+  verified: boolean;
+  address: string;
+}
+
+export interface Customer {
+  id: number;
+  customerId: string;
+  name: string;
+  email: string;
+  photo: string;
+  phone: string;
+  address: string;
+  jobCount: number;
+  status: PersonStatus;
+  since: string;
+}
+
+export type JobStatus =
+  | "pending"
+  | "open"
+  | "needs_quote"
+  | "quote_pending"
+  | "quote_rejected"
+  | "approved"
+  | "rejected"
+  | "in_progress"
+  | "completed"
+  | "paid"
+  | "cancelled";
+export type JobPriority = "low" | "medium" | "high" | "urgent";
+export type PayType = "hourly" | "flat";
+
+export interface Job {
+  id: number;
+  jobId: string;
+  title: string;
+  description: string;
+  customer: string;
+  contractor: string | null;
+  address: string;
+  status: JobStatus;
+  priority: JobPriority;
+  payType: PayType | null;
+  hoursWorked: number | null;
+  scheduledDate: string | null;
+  scheduledTime: string | null;
+  completedDate: string | null;
+  createdBy: string;
+  createdDate: string;
+  cancellationReason: string | null;
+  reviewedBy: string | null;
+  rejectionReason: string | null;
+}
 
 // ============================ TEAM ============================
-export const employeeData = [
+export const employeeData: Employee[] = [
   {
     id: 1,
     employeeId: "EMP-1000",
@@ -110,7 +190,7 @@ export const employeeData = [
 ];
 
 // ============================ CONTRACTORS ============================
-export const contractorsData = [
+export const contractorsData: Contractor[] = [
   {
     id: 1,
     contractorId: "CON-2000",
@@ -306,7 +386,7 @@ export const contractorsData = [
 ];
 
 // ============================ CUSTOMERS ============================
-export const customersData = [
+export const customersData: Customer[] = [
   {
     id: 1,
     customerId: "CUS-3000",
@@ -622,7 +702,7 @@ export const customersData = [
 ];
 
 // ============================ JOBS ============================
-export const jobsData = [
+export const jobsData: Job[] = [
   {
     id: 1,
     jobId: "JOB-5000",
