@@ -14,6 +14,9 @@ This is the **frontend** of the **Work Together** platform, built using [Next.js
 - Job listings UI
 - REST API integration
 - Fully responsive
+
+fasj
+
 - Tailwind CSS
 
 ## 🧾 License
