@@ -2,7 +2,7 @@
 
 import SearchBar from "@/app/components/SearchBar";
 import Table from "@/app/components/Table";
-import { contractorsData } from "@/lib/data/mockData";
+import { useData } from "@/lib/store/DataProvider";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -54,11 +54,10 @@ const renderRow = (item: any) => (
 );
 
 const ContractorListPageForAdmin = () => {
+  const { contractors } = useData();
   const [searchQuery, setSearchQuery] = useState("");
 
-  //fetch data, contractors from backend DB
-
-  const filteredContractors = contractorsData.filter((contractor) => {
+  const filteredContractors = contractors.filter((contractor) => {
     const q = searchQuery.toLowerCase();
     return (
       contractor.name.toLowerCase().includes(q) ||

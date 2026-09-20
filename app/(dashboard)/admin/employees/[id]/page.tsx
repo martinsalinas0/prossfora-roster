@@ -1,18 +1,14 @@
-import { employeeData } from "@/lib/data/mockData";
+"use client";
+
 import Link from "next/link";
-import { notFound } from "next/navigation";
-import EmployeeProfile from "./EmployeeProfile";
+import { useParams } from "next/navigation";
+import { useData } from "@/lib/store/DataProvider";
+import EmployeeProfile from "@/app/components/profiles/EmployeeProfile";
 
-const EmployeeDetailPage = async ({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) => {
-  const { id } = await params;
-
-  const employee = employeeData.find((e) => e.id === Number(id));
-
-  if (!employee) notFound();
+const EmployeeDetailPage = () => {
+  const { id } = useParams<{ id: string }>();
+  const { employees } = useData();
+  const employee = employees.find((e) => e.id === Number(id));
 
   return (
     <div className="p-6 space-y-6">
@@ -23,7 +19,11 @@ const EmployeeDetailPage = async ({
         ← Back to team
       </Link>
 
-      <EmployeeProfile employee={employee} />
+      {employee ? (
+        <EmployeeProfile employee={employee} />
+      ) : (
+        <p className="text-sm text-muted-foreground">Employee not found.</p>
+      )}
     </div>
   );
 };

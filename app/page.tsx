@@ -17,16 +17,19 @@ export default function HomePage() {
         <div className="flex flex-col items-center gap-2">
           <Link
             href="/admin"
-            className="px-8 py-3 rounded-lg bg-yarrow text-white font-semibold hover:bg-yarrow-700 transition-colors shadow-md"
+            aria-describedby="cta-hint"
+            className="px-8 py-3 rounded-lg bg-yarrow text-white font-semibold hover:bg-yarrow-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yarrow transition-colors shadow-md"
           >
             Get Started
           </Link>
-          <p className="text-sm text-muted-foreground">Try a demo</p>
+          <p id="cta-hint" className="text-sm text-muted-foreground">
+            Try a demo — no account needed
+          </p>
         </div>
       </main>
 
       <footer className="border-t border-border py-4 text-center text-sm text-muted-foreground">
-        © Prossfora. All rights reserved.
+        © {new Date().getFullYear()} Prossfora. All rights reserved.
       </footer>
     </div>
   );

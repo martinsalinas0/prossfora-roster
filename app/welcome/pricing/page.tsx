@@ -1,4 +1,3 @@
-import WelcomePageNavbar from "@/app/components/WelcomePageNavbar";
 import Link from "next/link";
 
 export default function PricingPage() {
@@ -6,7 +5,6 @@ export default function PricingPage() {
     <div className="min-h-screen bg-linear-to-br from-cerulean-50 via-white to-olive-50">
       <div className="max-w-6xl mx-auto px-6 py-20">
         {/* HEADER */}
-        <div></div>
         <div className="text-center mb-14">
           <h1 className="text-4xl md:text-5xl font-bold text-cerulean mb-4">
             Pricing

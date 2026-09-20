@@ -1,9 +1,8 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import Table from "@/app/components/Table";
-import { customersData } from "@/lib/data/mockData";
+import { useData } from "@/lib/store/DataProvider";
 import SearchBar from "@/app/components/SearchBar";
 import { useState } from "react";
 
@@ -44,13 +43,6 @@ const renderRow = (item: any) => (
     className="border-b border-border even:bg-muted/40 text-sm hover:bg-muted"
   >
     <td className="flex items-center gap-4 p-4">
-      <Image
-        src={item.photo}
-        alt=""
-        width={40}
-        height={40}
-        className="md:hidden xl:block w-10 h-10 rounded-full object-cover"
-      />
       <div className="flex flex-col">
         <h3 className="font-semibold">{item.name}</h3>
         <p className="text-xs text-muted-foreground">{item.email}</p>
@@ -72,11 +64,10 @@ const renderRow = (item: any) => (
 );
 
 export default function CustomerListPage() {
+  const { customers } = useData();
   const [searchQuery, setSearchQuery] = useState("");
 
-  //fetch customers data from backend DB
-
-  const filteredCustomers = customersData.filter((customer) => {
+  const filteredCustomers = customers.filter((customer) => {
     const q = searchQuery.toLowerCase();
     return (
       customer.name.toLowerCase().includes(q) ||
