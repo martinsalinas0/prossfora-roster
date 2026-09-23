@@ -5,6 +5,7 @@ import StatusBadge from "@/app/components/StatusBadge";
 import Table from "@/app/components/Table";
 import type { Job } from "@/lib/data/mockData";
 import { useData } from "@/lib/store/DataProvider";
+import { PlusCircle } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -91,8 +92,7 @@ const JobsListPageForAdmin = () => {
       job.contractor?.toLowerCase().includes(q) ||
       job.customer.toLowerCase().includes(q) ||
       job.jobId.toLowerCase().includes(q);
-    const matchesStatus =
-      statusFilter === "all" || job.status === statusFilter;
+    const matchesStatus = statusFilter === "all" || job.status === statusFilter;
     return matchesQuery && matchesStatus;
   });
 
@@ -100,6 +100,12 @@ const JobsListPageForAdmin = () => {
     <div className="bg-card p-4 rounded-md flex-1 m-4 mt-0">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <h1 className="hidden md:block text-lg font-semibold">All Jobs</h1>
+        <div className="bg-card rounded-md">
+          <Link href="/admin/jobs/new">
+            <PlusCircle />
+          </Link>
+          Create New Job
+        </div>
 
         <div className="flex items-center gap-2">
           <select
