@@ -100,12 +100,13 @@ const JobsListPageForAdmin = () => {
     <div className="bg-card p-4 rounded-md flex-1 m-4 mt-0">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <h1 className="hidden md:block text-lg font-semibold">All Jobs</h1>
-        <div className="bg-card rounded-md">
-          <Link href="/admin/jobs/new">
-            <PlusCircle />
-          </Link>
+        <Link
+          href="/admin/jobs/new"
+          className="inline-flex items-center gap-2 rounded-md bg-cerulean-500 px-3 py-1.5 text-sm font-medium text-white hover:bg-cerulean-600"
+        >
+          <PlusCircle className="h-4 w-4" />
           Create New Job
-        </div>
+        </Link>
 
         <div className="flex items-center gap-2">
           <select
