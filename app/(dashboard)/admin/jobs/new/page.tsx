@@ -32,8 +32,9 @@ const CreateNewJob = () => {
   const [payType, setPayType] = useState("");
   const [scheduledDate, setScheduledDate] = useState("");
   const [scheduledTime, setScheculedTime] = useState("");
-  const [createdBy, setCreatedBy] = useState(() => new Date());
-  const [createdDate, setCreatedTime] = useState("");
+  const [createdBy, setCreatedBy] = useState("");
+  const [createdDate, setCreatedDate] = useState(() => new Date());
+  const [createdAt, setCreatedAt] = useState<number>(() => Date.now());
 
   return (
     <div>
